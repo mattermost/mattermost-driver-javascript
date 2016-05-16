@@ -1,0 +1,36 @@
+{
+  "name": "mattermost",
+  "version": "3.0.0",
+  "description": "Javascript library for interacting with the Mattermost API",
+  "main": "lib/client.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattermost/mattermost-javascript.git"
+  },
+  "keywords": [
+    "mattermost",
+    "webhook",
+    "integration"
+  ],
+  "author": "Mattermost",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/mattermost/mattermost-platform/issues"
+  },
+  "homepage": "https://www.mattermost.org/",
+  "dependencies": {
+      "superagent": "1.8.3"
+  },
+  "devDependencies": {
+    "babel-loader": "6.2.4",
+    "babel-plugin-transform-runtime": "6.8.0",
+    "babel-polyfill": "6.8.0",
+    "babel-preset-es2015-webpack": "6.4.1",
+    "babel-preset-stage-0": "6.5.0",
+    "webpack": "2.1.0-beta.7"
+  },
+  "scripts": {
+    "build": "webpack",
+    "prepublish": "webpack"
+  }
+}

@@ -27,15 +27,15 @@ export default class Client {
         };
     }
 
-    setUrl = (url) => {
+    setUrl(url) {
         this.url = url;
     }
 
-    setTeamId = (id) => {
+    setTeamId(id) {
         this.teamId = id;
     }
 
-    getTeamId = () => {
+    getTeamId() {
         if (this.teamId === '') {
             console.error('You are trying to use a route that requires a team_id, but you have not called setTeamId() in client.jsx'); // eslint-disable-line no-console
         }
@@ -43,7 +43,7 @@ export default class Client {
         return this.teamId;
     }
 
-    getServerVersion = () => {
+    getServerVersion() {
         return this.serverVersion;
     }
 
@@ -107,34 +107,34 @@ export default class Client {
         return `${this.url}${this.urlVersion}/users/${userId}`;
     }
 
-    setTranslations = (messages) => {
+    setTranslations(messages) {
         this.translations = messages;
     }
 
-    enableLogErrorsToConsole = (enabled) => {
+    enableLogErrorsToConsole(enabled) {
         this.logToConsole = enabled;
     }
 
-    useHeaderToken = () => {
+    useHeaderToken() {
         this.useToken = true;
         if (this.token !== '') {
             this.defaultHeaders[HEADER_AUTH] = `${HEADER_BEARER} ${this.token}`;
         }
     }
 
-    track = (category, action, label, property, value) => { // eslint-disable-line no-unused-vars
+    track(category, action, label, property, value) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 
-    trackPage = () => {
+    trackPage() {
         // NO-OP for inherited classes to override
     }
 
-    handleError = (err, res) => { // eslint-disable-line no-unused-vars
+    handleError(err, res) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 
-    handleResponse = (methodName, successCallback, errorCallback, err, res) => {
+    handleResponse(methodName, successCallback, errorCallback, err, res) {
         if (res && res.header) {
             this.serverVersion = res.header[HEADER_X_VERSION_ID];
             if (res.header[HEADER_X_VERSION_ID]) {
@@ -185,7 +185,7 @@ export default class Client {
 
     // General / Admin / Licensing Routes Section
 
-    getTranslations = (url, success, error) => {
+    getTranslations(url, success, error) {
         return request.
             get(url).
             set(this.defaultHeaders).
@@ -194,7 +194,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getTranslations', success, error));
     }
 
-    getClientConfig = (success, error) => {
+    getClientConfig(success, error) {
         return request.
             get(`${this.getAdminRoute()}/client_props`).
             set(this.defaultHeaders).
@@ -203,7 +203,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getClientConfig', success, error));
     }
 
-    getComplianceReports = (success, error) => {
+    getComplianceReports(success, error) {
         return request.
             get(`${this.getAdminRoute()}/compliance_reports`).
             set(this.defaultHeaders).
@@ -212,7 +212,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getComplianceReports', success, error));
     }
 
-    uploadBrandImage = (image, success, error) => {
+    uploadBrandImage(image, success, error) {
         request.
             post(`${this.getAdminRoute()}/upload_brand_image`).
             set(this.defaultHeaders).
@@ -221,7 +221,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'uploadBrandImage', success, error));
     }
 
-    saveComplianceReports = (job, success, error) => {
+    saveComplianceReports(job, success, error) {
         return request.
             post(`${this.getAdminRoute()}/save_compliance_report`).
             set(this.defaultHeaders).
@@ -231,7 +231,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'saveComplianceReports', success, error));
     }
 
-    getLogs = (success, error) => {
+    getLogs(success, error) {
         return request.
             get(`${this.getAdminRoute()}/logs`).
             set(this.defaultHeaders).
@@ -240,7 +240,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getLogs', success, error));
     }
 
-    getServerAudits = (success, error) => {
+    getServerAudits(success, error) {
         return request.
             get(`${this.getAdminRoute()}/audits`).
             set(this.defaultHeaders).
@@ -249,7 +249,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getServerAudits', success, error));
     }
 
-    getConfig = (success, error) => {
+    getConfig(success, error) {
         return request.
             get(`${this.getAdminRoute()}/config`).
             set(this.defaultHeaders).
@@ -258,7 +258,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getConfig', success, error));
     }
 
-    getAnalytics = (name, teamId, success, error) => {
+    getAnalytics(name, teamId, success, error) {
         let url = `${this.getAdminRoute()}/analytics/`;
         if (teamId == null) {
             url += name;
@@ -274,7 +274,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getAnalytics', success, error));
     }
 
-    getTeamAnalytics = (teamId, name, success, error) => {
+    getTeamAnalytics(teamId, name, success, error) {
         return request.
             get(`${this.getAdminRoute()}/analytics/${teamId}/${name}`).
             set(this.defaultHeaders).
@@ -283,7 +283,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getTeamAnalytics', success, error));
     }
 
-    saveConfig = (config, success, error) => {
+    saveConfig(config, success, error) {
         request.
             post(`${this.getAdminRoute()}/save_config`).
             set(this.defaultHeaders).
@@ -293,7 +293,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'saveConfig', success, error));
     }
 
-    testEmail = (config, success, error) => {
+    testEmail(config, success, error) {
         request.
             post(`${this.getAdminRoute()}/test_email`).
             set(this.defaultHeaders).
@@ -303,7 +303,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'testEmail', success, error));
     }
 
-    logClientError = (msg) => {
+    logClientError(msg) {
         var l = {};
         l.level = 'ERROR';
         l.message = msg;
@@ -317,7 +317,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'logClientError', null, null));
     }
 
-    getClientLicenceConfig = (success, error) => {
+    getClientLicenceConfig(success, error) {
         request.
             get(`${this.getLicenseRoute()}/client_config`).
             set(this.defaultHeaders).
@@ -326,7 +326,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getClientLicenceConfig', success, error));
     }
 
-    removeLicenseFile = (success, error) => {
+    removeLicenseFile(success, error) {
         request.
             post(`${this.getLicenseRoute()}/remove`).
             set(this.defaultHeaders).
@@ -335,7 +335,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'removeLicenseFile', success, error));
     }
 
-    uploadLicenseFile = (license, success, error) => {
+    uploadLicenseFile(license, success, error) {
         request.
             post(`${this.getLicenseRoute()}/add`).
             set(this.defaultHeaders).
@@ -346,7 +346,7 @@ export default class Client {
         this.track('api', 'api_license_upload');
     }
 
-    importSlack = (fileData, success, error) => {
+    importSlack(fileData, success, error) {
         request.
             post(`${this.getTeamNeededRoute()}/import_team`).
             set(this.defaultHeaders).
@@ -355,7 +355,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'importSlack', success, error));
     }
 
-    exportTeam = (success, error) => {
+    exportTeam(success, error) {
         request.
             get(`${this.getTeamsRoute()}/export_team`).
             set(this.defaultHeaders).
@@ -364,7 +364,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'exportTeam', success, error));
     }
 
-    signupTeam = (email, success, error) => {
+    signupTeam(email, success, error) {
         request.
             post(`${this.getTeamsRoute()}/signup`).
             set(this.defaultHeaders).
@@ -376,7 +376,7 @@ export default class Client {
         this.track('api', 'api_teams_signup');
     }
 
-    adminResetMfa = (userId, success, error) => {
+    adminResetMfa(userId, success, error) {
         const data = {};
         data.user_id = userId;
 
@@ -389,7 +389,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'adminResetMfa', success, error));
     }
 
-    adminResetPassword = (userId, newPassword, success, error) => {
+    adminResetPassword(userId, newPassword, success, error) {
         var data = {};
         data.new_password = newPassword;
         data.user_id = userId;
@@ -407,7 +407,7 @@ export default class Client {
 
     // Team Routes Section
 
-    createTeamFromSignup = (teamSignup, success, error) => {
+    createTeamFromSignup(teamSignup, success, error) {
         request.
             post(`${this.getTeamsRoute()}/create_from_signup`).
             set(this.defaultHeaders).
@@ -417,7 +417,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'createTeamFromSignup', success, error));
     }
 
-    findTeamByName = (teamName, success, error) => {
+    findTeamByName(teamName, success, error) {
         request.
             post(`${this.getTeamsRoute()}/find_team_by_name`).
             set(this.defaultHeaders).
@@ -427,7 +427,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'findTeamByName', success, error));
     }
 
-    createTeam = (team, success, error) => {
+    createTeam(team, success, error) {
         request.
             post(`${this.getTeamsRoute()}/create`).
             set(this.defaultHeaders).
@@ -439,7 +439,7 @@ export default class Client {
         this.track('api', 'api_users_create', '', 'email', team.name);
     }
 
-    updateTeam = (team, success, error) => {
+    updateTeam(team, success, error) {
         request.
             post(`${this.getTeamNeededRoute()}/update`).
             set(this.defaultHeaders).
@@ -451,7 +451,7 @@ export default class Client {
         this.track('api', 'api_teams_update_name');
     }
 
-    getAllTeams = (success, error) => {
+    getAllTeams(success, error) {
         request.
             get(`${this.getTeamsRoute()}/all`).
             set(this.defaultHeaders).
@@ -460,7 +460,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getAllTeams', success, error));
     }
 
-    getAllTeamListings = (success, error) => {
+    getAllTeamListings(success, error) {
         request.
             get(`${this.getTeamsRoute()}/all_team_listings`).
             set(this.defaultHeaders).
@@ -469,7 +469,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getAllTeamListings', success, error));
     }
 
-    getMyTeam = (success, error) => {
+    getMyTeam(success, error) {
         request.
             get(`${this.getTeamNeededRoute()}/me`).
             set(this.defaultHeaders).
@@ -478,7 +478,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getMyTeam', success, error));
     }
 
-    getTeamMembers = (teamId, success, error) => {
+    getTeamMembers(teamId, success, error) {
         request.
             get(`${this.getTeamsRoute()}/members/${teamId}`).
             set(this.defaultHeaders).
@@ -487,7 +487,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getTeamMembers', success, error));
     }
 
-    inviteMembers = (data, success, error) => {
+    inviteMembers(data, success, error) {
         request.
             post(`${this.getTeamNeededRoute()}/invite_members`).
             set(this.defaultHeaders).
@@ -499,7 +499,7 @@ export default class Client {
         this.track('api', 'api_teams_invite_members');
     }
 
-    addUserToTeam = (userId, success, error) => {
+    addUserToTeam(userId, success, error) {
         request.
             post(`${this.getTeamNeededRoute()}/add_user_to_team`).
             set(this.defaultHeaders).
@@ -511,7 +511,7 @@ export default class Client {
         this.track('api', 'api_teams_invite_members');
     }
 
-    addUserToTeamFromInvite = (data, hash, inviteId, success, error) => {
+    addUserToTeamFromInvite(data, hash, inviteId, success, error) {
         request.
             post(`${this.getTeamsRoute()}/add_user_to_team_from_invite`).
             set(this.defaultHeaders).
@@ -523,7 +523,7 @@ export default class Client {
         this.track('api', 'api_teams_invite_members');
     }
 
-    getInviteInfo = (inviteId, success, error) => {
+    getInviteInfo(inviteId, success, error) {
         request.
             post(`${this.getTeamsRoute()}/get_invite_info`).
             set(this.defaultHeaders).
@@ -535,11 +535,11 @@ export default class Client {
 
     // User Routes Setions
 
-    createUser = (user, success, error) => {
+    createUser(user, success, error) {
         this.createUserWithInvite(user, null, null, null, success, error);
     }
 
-    createUserWithInvite = (user, data, emailHash, inviteId, success, error) => {
+    createUserWithInvite(user, data, emailHash, inviteId, success, error) {
         var url = `${this.getUsersRoute()}/create`;
 
         url += '?d=' + encodeURIComponent(data);
@@ -563,7 +563,7 @@ export default class Client {
         this.track('api', 'api_users_create', '', 'email', user.email);
     }
 
-    updateUser = (user, success, error) => {
+    updateUser(user, success, error) {
         request.
             post(`${this.getUsersRoute()}/update`).
             set(this.defaultHeaders).
@@ -575,7 +575,7 @@ export default class Client {
         this.track('api', 'api_users_update');
     }
 
-    updatePassword = (userId, currentPassword, newPassword, success, error) => {
+    updatePassword(userId, currentPassword, newPassword, success, error) {
         var data = {};
         data.user_id = userId;
         data.current_password = currentPassword;
@@ -592,7 +592,7 @@ export default class Client {
         this.track('api', 'api_users_newpassword');
     }
 
-    updateUserNotifyProps = (notifyProps, success, error) => {
+    updateUserNotifyProps(notifyProps, success, error) {
         request.
             post(`${this.getUsersRoute()}/update_notify`).
             set(this.defaultHeaders).
@@ -602,7 +602,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'updateUserNotifyProps', success, error));
     }
 
-    updateRoles = (teamId, userId, newRoles, success, error) => {
+    updateRoles(teamId, userId, newRoles, success, error) {
         var data = {
             team_id: teamId,
             user_id: userId,
@@ -620,7 +620,7 @@ export default class Client {
         this.track('api', 'api_users_update_roles');
     }
 
-    updateActive = (userId, active, success, error) => {
+    updateActive(userId, active, success, error) {
         var data = {};
         data.user_id = userId;
         data.active = '' + active;
@@ -636,7 +636,7 @@ export default class Client {
         this.track('api', 'api_users_update_roles');
     }
 
-    sendPasswordReset = (email, success, error) => {
+    sendPasswordReset(email, success, error) {
         var data = {};
         data.email = email;
 
@@ -651,7 +651,7 @@ export default class Client {
         this.track('api', 'api_users_send_password_reset');
     }
 
-    resetPassword = (code, newPassword, success, error) => {
+    resetPassword(code, newPassword, success, error) {
         var data = {};
         data.new_password = newPassword;
         data.code = code;
@@ -667,7 +667,7 @@ export default class Client {
         this.track('api', 'api_users_reset_password');
     }
 
-    emailToOAuth = (email, password, service, success, error) => {
+    emailToOAuth(email, password, service, success, error) {
         var data = {};
         data.password = password;
         data.email = email;
@@ -684,7 +684,7 @@ export default class Client {
         this.track('api', 'api_users_email_to_oauth');
     }
 
-    oauthToEmail = (email, password, success, error) => {
+    oauthToEmail(email, password, success, error) {
         var data = {};
         data.password = password;
         data.email = email;
@@ -700,7 +700,7 @@ export default class Client {
         this.track('api', 'api_users_oauth_to_email');
     }
 
-    emailToLdap = (email, password, ldapId, ldapPassword, success, error) => {
+    emailToLdap(email, password, ldapId, ldapPassword, success, error) {
         var data = {};
         data.email_password = password;
         data.email = email;
@@ -718,7 +718,7 @@ export default class Client {
         this.track('api', 'api_users_email_to_ldap');
     }
 
-    ldapToEmail = (email, emailPassword, ldapPassword, success, error) => {
+    ldapToEmail(email, emailPassword, ldapPassword, success, error) {
         var data = {};
         data.email = email;
         data.ldap_password = ldapPassword;
@@ -735,7 +735,7 @@ export default class Client {
         this.track('api', 'api_users_oauth_to_email');
     }
 
-    getInitialLoad = (success, error) => {
+    getInitialLoad(success, error) {
         request.
             get(`${this.getUsersRoute()}/initial_load`).
             set(this.defaultHeaders).
@@ -744,7 +744,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getInitialLoad', success, error));
     }
 
-    getMe = (success, error) => {
+    getMe(success, error) {
         request.
             get(`${this.getUsersRoute()}/me`).
             set(this.defaultHeaders).
@@ -753,25 +753,25 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getMe', success, error));
     }
 
-    login = (loginId, password, mfaToken, success, error) => {
+    login(loginId, password, mfaToken, success, error) {
         this.doLogin({login_id: loginId, password, token: mfaToken}, success, error);
 
         this.track('api', 'api_users_login', '', 'login_id', loginId);
     }
 
-    loginById = (id, password, mfaToken, success, error) => {
+    loginById(id, password, mfaToken, success, error) {
         this.doLogin({id, password, token: mfaToken}, success, error);
 
         this.track('api', 'api_users_login', '', 'id', id);
     }
 
-    loginByLdap = (loginId, password, mfaToken, success, error) => {
+    loginByLdap(loginId, password, mfaToken, success, error) {
         this.doLogin({login_id: loginId, password, token: mfaToken, ldap_only: 'true'}, success, error);
 
         this.track('api', 'api_users_login', '', 'login_id', loginId);
     }
 
-    doLogin = (outgoingData, success, error) => {
+    doLogin(outgoingData, success, error) {
         var outer = this;  // eslint-disable-line consistent-this
 
         request.
@@ -800,7 +800,7 @@ export default class Client {
             ));
     }
 
-    logout = (success, error) => {
+    logout(success, error) {
         request.
             post(`${this.getUsersRoute()}/logout`).
             set(this.defaultHeaders).
@@ -811,7 +811,7 @@ export default class Client {
         this.track('api', 'api_users_logout');
     }
 
-    checkMfa = (loginId, success, error) => {
+    checkMfa(loginId, success, error) {
         const data = {
             login_id: loginId
         };
@@ -827,7 +827,7 @@ export default class Client {
         this.track('api', 'api_users_oauth_to_email');
     }
 
-    revokeSession = (altId, success, error) => {
+    revokeSession(altId, success, error) {
         request.
             post(`${this.getUsersRoute()}/revoke_session`).
             set(this.defaultHeaders).
@@ -837,7 +837,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'revokeSession', success, error));
     }
 
-    getSessions = (userId, success, error) => {
+    getSessions(userId, success, error) {
         request.
             get(`${this.getUserNeededRoute(userId)}/sessions`).
             set(this.defaultHeaders).
@@ -846,7 +846,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getSessions', success, error));
     }
 
-    getAudits = (userId, success, error) => {
+    getAudits(userId, success, error) {
         request.
             get(`${this.getUserNeededRoute(userId)}/audits`).
             set(this.defaultHeaders).
@@ -855,7 +855,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getAudits', success, error));
     }
 
-    getDirectProfiles = (success, error) => {
+    getDirectProfiles(success, error) {
         request.
             get(`${this.getUsersRoute()}/direct_profiles`).
             set(this.defaultHeaders).
@@ -864,7 +864,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getDirectProfiles', success, error));
     }
 
-    getProfiles = (success, error) => {
+    getProfiles(success, error) {
         request.
             get(`${this.getUsersRoute()}/profiles/${this.getTeamId()}`).
             set(this.defaultHeaders).
@@ -873,7 +873,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getProfiles', success, error));
     }
 
-    getProfilesForTeam = (teamId, success, error) => {
+    getProfilesForTeam(teamId, success, error) {
         request.
             get(`${this.getUsersRoute()}/profiles/${teamId}`).
             set(this.defaultHeaders).
@@ -882,7 +882,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getProfilesForTeam', success, error));
     }
 
-    getProfilesForDirectMessageList = (success, error) => {
+    getProfilesForDirectMessageList(success, error) {
         request.
             get(`${this.getUsersRoute()}/profiles_for_dm_list/${this.getTeamId()}`).
             set(this.defaultHeaders).
@@ -891,7 +891,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getProfilesForDirectMessageList', success, error));
     }
 
-    getStatuses = (ids, success, error) => {
+    getStatuses(ids, success, error) {
         request.
             post(`${this.getUsersRoute()}/status`).
             set(this.defaultHeaders).
@@ -901,7 +901,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getStatuses', success, error));
     }
 
-    verifyEmail = (uid, hid, success, error) => {
+    verifyEmail(uid, hid, success, error) {
         request.
             post(`${this.getUsersRoute()}/verify_email`).
             set(this.defaultHeaders).
@@ -911,7 +911,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'verifyEmail', success, error));
     }
 
-    resendVerification = (email, success, error) => {
+    resendVerification(email, success, error) {
         request.
             post(`${this.getUsersRoute()}/resend_verification`).
             set(this.defaultHeaders).
@@ -921,7 +921,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'resendVerification', success, error));
     }
 
-    updateMfa = (token, activate, success, error) => {
+    updateMfa(token, activate, success, error) {
         const data = {};
         data.activate = activate;
         data.token = token;
@@ -935,7 +935,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'updateMfa', success, error));
     }
 
-    uploadProfileImage = (image, success, error) => {
+    uploadProfileImage(image, success, error) {
         request.
             post(`${this.getUsersRoute()}/newimage`).
             set(this.defaultHeaders).
@@ -946,7 +946,7 @@ export default class Client {
 
     // Channel Routes Section
 
-    createChannel = (channel, success, error) => {
+    createChannel(channel, success, error) {
         request.
             post(`${this.getChannelsRoute()}/create`).
             set(this.defaultHeaders).
@@ -958,7 +958,7 @@ export default class Client {
         this.track('api', 'api_channels_create', channel.type, 'name', channel.name);
     }
 
-    createDirectChannel = (userId, success, error) => {
+    createDirectChannel(userId, success, error) {
         request.
             post(`${this.getChannelsRoute()}/create_direct`).
             set(this.defaultHeaders).
@@ -968,7 +968,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'createDirectChannel', success, error));
     }
 
-    updateChannel = (channel, success, error) => {
+    updateChannel(channel, success, error) {
         request.
             post(`${this.getChannelsRoute()}/update`).
             set(this.defaultHeaders).
@@ -980,7 +980,7 @@ export default class Client {
         this.track('api', 'api_channels_update');
     }
 
-    updateChannelHeader = (channelId, header, success, error) => {
+    updateChannelHeader(channelId, header, success, error) {
         const data = {
             channel_id: channelId,
             channel_header: header
@@ -997,7 +997,7 @@ export default class Client {
         this.track('api', 'api_channels_header');
     }
 
-    updateChannelPurpose = (channelId, purpose, success, error) => {
+    updateChannelPurpose(channelId, purpose, success, error) {
         const data = {
             channel_id: channelId,
             channel_purpose: purpose
@@ -1014,7 +1014,7 @@ export default class Client {
         this.track('api', 'api_channels_purpose');
     }
 
-    updateChannelNotifyProps = (data, success, error) => {
+    updateChannelNotifyProps(data, success, error) {
         request.
             post(`${this.getChannelsRoute()}/update_notify_props`).
             set(this.defaultHeaders).
@@ -1024,7 +1024,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'updateChannelNotifyProps', success, error));
     }
 
-    leaveChannel = (channelId, success, error) => {
+    leaveChannel(channelId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/leave`).
             set(this.defaultHeaders).
@@ -1035,7 +1035,7 @@ export default class Client {
         this.track('api', 'api_channels_leave');
     }
 
-    joinChannel = (channelId, success, error) => {
+    joinChannel(channelId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/join`).
             set(this.defaultHeaders).
@@ -1046,7 +1046,7 @@ export default class Client {
         this.track('api', 'api_channels_join');
     }
 
-    joinChannelByName = (name, success, error) => {
+    joinChannelByName(name, success, error) {
         request.
             post(`${this.getChannelNameRoute(name)}/join`).
             set(this.defaultHeaders).
@@ -1057,7 +1057,7 @@ export default class Client {
         this.track('api', 'api_channels_join_name');
     }
 
-    deleteChannel = (channelId, success, error) => {
+    deleteChannel(channelId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/delete`).
             set(this.defaultHeaders).
@@ -1068,7 +1068,7 @@ export default class Client {
         this.track('api', 'api_channels_delete');
     }
 
-    updateLastViewedAt = (channelId, success, error) => {
+    updateLastViewedAt(channelId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/update_last_viewed_at`).
             set(this.defaultHeaders).
@@ -1077,7 +1077,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'updateLastViewedAt', success, error));
     }
 
-    getChannels = (success, error) => {
+    getChannels(success, error) {
         request.
             get(`${this.getChannelsRoute()}/`).
             set(this.defaultHeaders).
@@ -1086,7 +1086,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getChannels', success, error));
     }
 
-    getChannel = (channelId, success, error) => {
+    getChannel(channelId, success, error) {
         request.
             get(`${this.getChannelNeededRoute(channelId)}/`).
             set(this.defaultHeaders).
@@ -1097,7 +1097,7 @@ export default class Client {
         this.track('api', 'api_channel_get');
     }
 
-    getMoreChannels = (success, error) => {
+    getMoreChannels(success, error) {
         request.
             get(`${this.getChannelsRoute()}/more`).
             set(this.defaultHeaders).
@@ -1106,7 +1106,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getMoreChannels', success, error));
     }
 
-    getChannelCounts = (success, error) => {
+    getChannelCounts(success, error) {
         request.
             get(`${this.getChannelsRoute()}/counts`).
             set(this.defaultHeaders).
@@ -1115,7 +1115,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getChannelCounts', success, error));
     }
 
-    getChannelExtraInfo = (channelId, memberLimit, success, error) => {
+    getChannelExtraInfo(channelId, memberLimit, success, error) {
         var url = `${this.getChannelNeededRoute(channelId)}/extra_info`;
         if (memberLimit) {
             url += '/' + memberLimit;
@@ -1129,7 +1129,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getChannelExtraInfo', success, error));
     }
 
-    addChannelMember = (channelId, userId, success, error) => {
+    addChannelMember(channelId, userId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/add`).
             set(this.defaultHeaders).
@@ -1141,7 +1141,7 @@ export default class Client {
         this.track('api', 'api_channels_add_member');
     }
 
-    removeChannelMember = (channelId, userId, success, error) => {
+    removeChannelMember(channelId, userId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/remove`).
             set(this.defaultHeaders).
@@ -1155,7 +1155,7 @@ export default class Client {
 
     // Routes for Commands
 
-    listCommands = (success, error) => {
+    listCommands(success, error) {
         request.
             get(`${this.getCommandsRoute()}/list`).
             set(this.defaultHeaders).
@@ -1164,7 +1164,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'listCommands', success, error));
     }
 
-    executeCommand = (channelId, command, suggest, success, error) => {
+    executeCommand(channelId, command, suggest, success, error) {
         request.
             post(`${this.getCommandsRoute()}/execute`).
             set(this.defaultHeaders).
@@ -1174,7 +1174,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'executeCommand', success, error));
     }
 
-    addCommand = (command, success, error) => {
+    addCommand(command, success, error) {
         request.
             post(`${this.getCommandsRoute()}/create`).
             set(this.defaultHeaders).
@@ -1184,7 +1184,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'addCommand', success, error));
     }
 
-    deleteCommand = (commandId, success, error) => {
+    deleteCommand(commandId, success, error) {
         request.
             post(`${this.getCommandsRoute()}/delete`).
             set(this.defaultHeaders).
@@ -1194,7 +1194,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'deleteCommand', success, error));
     }
 
-    listTeamCommands = (success, error) => {
+    listTeamCommands(success, error) {
         request.
             get(`${this.getCommandsRoute()}/list_team_commands`).
             set(this.defaultHeaders).
@@ -1203,7 +1203,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'listTeamCommands', success, error));
     }
 
-    regenCommandToken = (commandId, success, error) => {
+    regenCommandToken(commandId, success, error) {
         request.
             post(`${this.getCommandsRoute()}/regen_token`).
             set(this.defaultHeaders).
@@ -1215,7 +1215,7 @@ export default class Client {
 
     // Routes for Posts
 
-    createPost = (post, success, error) => {
+    createPost(post, success, error) {
         request.
             post(`${this.getPostsRoute(post.channel_id)}/create`).
             set(this.defaultHeaders).
@@ -1229,7 +1229,7 @@ export default class Client {
 
     // This is a temporary route to get around a problem with the permissions system that
     // will be fixed in 3.1 or 3.2
-    getPermalinkTmp = (postId, success, error) => {
+    getPermalinkTmp(postId, success, error) {
         request.
             get(`${this.getTeamNeededRoute()}/pltmp/${postId}`).
             set(this.defaultHeaders).
@@ -1238,7 +1238,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPermalinkTmp', success, error));
     }
 
-    getPostById = (postId, success, error) => {
+    getPostById(postId, success, error) {
         request.
             get(`${this.getTeamNeededRoute()}/posts/${postId}`).
             set(this.defaultHeaders).
@@ -1247,7 +1247,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPostById', success, error));
     }
 
-    getPost = (channelId, postId, success, error) => {
+    getPost(channelId, postId, success, error) {
         request.
             get(`${this.getChannelNeededRoute(channelId)}/posts/${postId}/get`).
             set(this.defaultHeaders).
@@ -1256,7 +1256,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPost', success, error));
     }
 
-    updatePost = (post, success, error) => {
+    updatePost(post, success, error) {
         request.
             post(`${this.getPostsRoute(post.channel_id)}/update`).
             set(this.defaultHeaders).
@@ -1268,7 +1268,7 @@ export default class Client {
         this.track('api', 'api_posts_update');
     }
 
-    deletePost = (channelId, postId, success, error) => {
+    deletePost(channelId, postId, success, error) {
         request.
             post(`${this.getChannelNeededRoute(channelId)}/posts/${postId}/delete`).
             set(this.defaultHeaders).
@@ -1279,7 +1279,7 @@ export default class Client {
         this.track('api', 'api_posts_delete');
     }
 
-    search = (terms, isOrSearch, success, error) => {
+    search(terms, isOrSearch, success, error) {
         const data = {};
         data.terms = terms;
         data.is_or_search = isOrSearch;
@@ -1295,7 +1295,7 @@ export default class Client {
         this.track('api', 'api_posts_search');
     }
 
-    getPostsPage = (channelId, offset, limit, success, error) => {
+    getPostsPage(channelId, offset, limit, success, error) {
         request.
             get(`${this.getPostsRoute(channelId)}/page/${offset}/${limit}`).
             set(this.defaultHeaders).
@@ -1304,7 +1304,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPostsPage', success, error));
     }
 
-    getPosts = (channelId, since, success, error) => {
+    getPosts(channelId, since, success, error) {
         request.
             get(`${this.getPostsRoute(channelId)}/since/${since}`).
             set(this.defaultHeaders).
@@ -1313,7 +1313,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPosts', success, error));
     }
 
-    getPostsBefore = (channelId, postId, offset, numPost, success, error) => {
+    getPostsBefore(channelId, postId, offset, numPost, success, error) {
         request.
             get(`${this.getPostsRoute(channelId)}/${postId}/before/${offset}/${numPost}`).
             set(this.defaultHeaders).
@@ -1322,7 +1322,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPostsBefore', success, error));
     }
 
-    getPostsAfter = (channelId, postId, offset, numPost, success, error) => {
+    getPostsAfter(channelId, postId, offset, numPost, success, error) {
         request.
             get(`${this.getPostsRoute(channelId)}/${postId}/after/${offset}/${numPost}`).
             set(this.defaultHeaders).
@@ -1333,7 +1333,7 @@ export default class Client {
 
     // Routes for Files
 
-    getFileInfo = (filename, success, error) => {
+    getFileInfo(filename, success, error) {
         request.
             get(`${this.getFilesRoute()}/get_info${filename}`).
             set(this.defaultHeaders).
@@ -1342,7 +1342,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getFileInfo', success, error));
     }
 
-    getPublicLink = (filename, success, error) => {
+    getPublicLink(filename, success, error) {
         const data = {
             filename
         };
@@ -1356,7 +1356,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPublicLink', success, error));
     }
 
-    uploadFile = (file, filename, channelId, clientId, success, error) => {
+    uploadFile(file, filename, channelId, clientId, success, error) {
         return request.
             post(`${this.getFilesRoute()}/upload`).
             set(this.defaultHeaders).
@@ -1369,7 +1369,7 @@ export default class Client {
 
     // Routes for OAuth
 
-    registerOAuthApp = (app, success, error) => {
+    registerOAuthApp(app, success, error) {
         request.
             post(`${this.getOAuthRoute()}/register`).
             set(this.defaultHeaders).
@@ -1381,7 +1381,7 @@ export default class Client {
         this.track('api', 'api_apps_register');
     }
 
-    allowOAuth2 = (responseType, clientId, redirectUri, state, scope, success, error) => {
+    allowOAuth2(responseType, clientId, redirectUri, state, scope, success, error) {
         request.
             get(`${this.getOAuthRoute()}/allow`).
             set(this.defaultHeaders).
@@ -1397,7 +1397,7 @@ export default class Client {
 
     // Routes for Hooks
 
-    addIncomingHook = (hook, success, error) => {
+    addIncomingHook(hook, success, error) {
         request.
             post(`${this.getHooksRoute()}/incoming/create`).
             set(this.defaultHeaders).
@@ -1407,7 +1407,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'addIncomingHook', success, error));
     }
 
-    deleteIncomingHook = (hookId, success, error) => {
+    deleteIncomingHook(hookId, success, error) {
         request.
             post(`${this.getHooksRoute()}/incoming/delete`).
             set(this.defaultHeaders).
@@ -1417,7 +1417,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'deleteIncomingHook', success, error));
     }
 
-    listIncomingHooks = (success, error) => {
+    listIncomingHooks(success, error) {
         request.
             get(`${this.getHooksRoute()}/incoming/list`).
             set(this.defaultHeaders).
@@ -1426,7 +1426,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'listIncomingHooks', success, error));
     }
 
-    addOutgoingHook = (hook, success, error) => {
+    addOutgoingHook(hook, success, error) {
         request.
             post(`${this.getHooksRoute()}/outgoing/create`).
             set(this.defaultHeaders).
@@ -1436,7 +1436,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'addOutgoingHook', success, error));
     }
 
-    deleteOutgoingHook = (hookId, success, error) => {
+    deleteOutgoingHook(hookId, success, error) {
         request.
             post(`${this.getHooksRoute()}/outgoing/delete`).
             set(this.defaultHeaders).
@@ -1446,7 +1446,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'deleteOutgoingHook', success, error));
     }
 
-    listOutgoingHooks = (success, error) => {
+    listOutgoingHooks(success, error) {
         request.
             get(`${this.getHooksRoute()}/outgoing/list`).
             set(this.defaultHeaders).
@@ -1455,7 +1455,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'listOutgoingHooks', success, error));
     }
 
-    regenOutgoingHookToken = (hookId, success, error) => {
+    regenOutgoingHookToken(hookId, success, error) {
         request.
             post(`${this.getHooksRoute()}/outgoing/regen_token`).
             set(this.defaultHeaders).
@@ -1467,7 +1467,7 @@ export default class Client {
 
     //Routes for Prefrecnes
 
-    getAllPreferences = (success, error) => {
+    getAllPreferences(success, error) {
         request.
             get(`${this.getBaseRoute()}/preferences/`).
             set(this.defaultHeaders).
@@ -1476,7 +1476,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getAllPreferences', success, error));
     }
 
-    savePreferences = (preferences, success, error) => {
+    savePreferences(preferences, success, error) {
         request.
             post(`${this.getBaseRoute()}/preferences/save`).
             set(this.defaultHeaders).
@@ -1486,7 +1486,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'savePreferences', success, error));
     }
 
-    getPreferenceCategory = (category, success, error) => {
+    getPreferenceCategory(category, success, error) {
         request.
             get(`${this.getBaseRoute()}/preferences/${category}`).
             set(this.defaultHeaders).
