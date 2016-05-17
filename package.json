@@ -15,7 +15,7 @@
   "author": "Mattermost",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/mattermost/mattermost-platform/issues"
+    "url": "https://github.com/mattermost/platform/issues"
   },
   "homepage": "https://www.mattermost.org/",
   "dependencies": {

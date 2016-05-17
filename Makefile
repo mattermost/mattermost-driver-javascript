@@ -1,13 +1,20 @@
-.PHONY: clean build publish
+.PHONY: clean build publish npminstall
 
-build:
-	@echo Building...
+npminstall: package.json
+	@echo Install
 
 	npm install
+
+build: npminstall
+	@echo Building...
+
 	npm run build
 
-publish:
+publish: npminstall
 	@echo Publishing
+
+	npm login
+	npm publish
 
 
 clean:
