@@ -1,8 +1,16 @@
 {
   "name": "mattermost",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Javascript library for interacting with the Mattermost API",
   "main": "lib/client.js",
+  "files": [
+      "client.jsx",
+      "README.md",
+      "Makefile",
+      "lib",
+      "lib/client.js",
+      "lib/client.js.map"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mattermost/mattermost-javascript.git"
@@ -27,7 +35,8 @@
     "babel-polyfill": "6.8.0",
     "babel-preset-es2015-webpack": "6.4.1",
     "babel-preset-stage-0": "6.5.0",
-    "webpack": "2.1.0-beta.7"
+    "webpack": "2.1.0-beta.7",
+    "webpack-node-externals": "1.2.0"
   },
   "scripts": {
     "build": "webpack",

@@ -1,10 +1,13 @@
 var webpack = require('webpack');
 var path = require('path');
+var nodeExternals = require('webpack-node-externals');
 
 var config = {
-    entry: './client.jsx',
+    entry: './main.jsx',
     output: {
         path: 'lib',
+        libraryTarget: "commonjs2",
+        library: "Mattermost",
         filename: 'client.js'
     },
     module: {
@@ -25,7 +28,13 @@ var config = {
             minimize: true,
             debug: false
         })
-    ]
+    ],
+    resolve: {
+        alias: {
+            superagent: 'node_modules/superagent/lib/client'
+        }
+    },
+    externals: [nodeExternals()]
 };
 
 config.devtool = 'source-map';
