@@ -1,6 +1,6 @@
 {
   "name": "mattermost",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Javascript library for interacting with the Mattermost API",
   "main": "lib/client.js",
   "files": [
