@@ -55,6 +55,10 @@ export default class Client {
         return `${this.url}${this.urlVersion}/admin`;
     }
 
+    getGeneralRoute() {
+        return `${this.url}${this.urlVersion}/general`;
+    }
+
     getLicenseRoute() {
         return `${this.url}${this.urlVersion}/license`;
     }
@@ -183,7 +187,59 @@ export default class Client {
         }
     }
 
-    // General / Admin / Licensing Routes Section
+    // General Routes Section
+
+    getClientConfig(success, error) {
+        return request.
+            get(`${this.getGeneralRoute()}/client_props`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'getClientConfig', success, error));
+    }
+
+    getPing(success, error) {
+        return request.
+            get(`${this.getGeneralRoute()}/ping`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'getPing', success, error));
+    }
+
+    logClientError(msg) {
+        var l = {};
+        l.level = 'ERROR';
+        l.message = msg;
+
+        request.
+            post(`${this.getGeneralRoute()}/log_client`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            send(l).
+            end(this.handleResponse.bind(this, 'logClientError', null, null));
+    }
+
+    // Admin / Licensing Routes Section
+
+    reloadConfig(success, error) {
+        return request.
+            get(`${this.getAdminRoute()}/reload_config`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'reloadConfig', success, error));
+    }
+
+    recycleDatabaseConnection(success, error) {
+        return request.
+            get(`${this.getAdminRoute()}/recycle_db_conn`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'recycleDatabaseConnection', success, error));
+    }
 
     getTranslations(url, success, error) {
         return request.
@@ -192,15 +248,6 @@ export default class Client {
             type('application/json').
             accept('application/json').
             end(this.handleResponse.bind(this, 'getTranslations', success, error));
-    }
-
-    getClientConfig(success, error) {
-        return request.
-            get(`${this.getAdminRoute()}/client_props`).
-            set(this.defaultHeaders).
-            type('application/json').
-            accept('application/json').
-            end(this.handleResponse.bind(this, 'getClientConfig', success, error));
     }
 
     getComplianceReports(success, error) {
@@ -301,20 +348,6 @@ export default class Client {
             accept('application/json').
             send(config).
             end(this.handleResponse.bind(this, 'testEmail', success, error));
-    }
-
-    logClientError(msg) {
-        var l = {};
-        l.level = 'ERROR';
-        l.message = msg;
-
-        request.
-            post(`${this.getAdminRoute()}/log_client`).
-            set(this.defaultHeaders).
-            type('application/json').
-            accept('application/json').
-            send(l).
-            end(this.handleResponse.bind(this, 'logClientError', null, null));
     }
 
     getClientLicenceConfig(success, error) {
