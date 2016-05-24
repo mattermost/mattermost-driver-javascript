@@ -223,6 +223,24 @@ export default class Client {
 
     // Admin / Licensing Routes Section
 
+    reloadConfig(success, error) {
+        return request.
+            get(`${this.getAdminRoute()}/reload_config`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'reloadConfig', success, error));
+    }
+
+    recycleDatabaseConnection(success, error) {
+        return request.
+            get(`${this.getAdminRoute()}/recycle_db_conn`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'recycleDatabaseConnection', success, error));
+    }
+
     getTranslations(url, success, error) {
         return request.
             get(url).
