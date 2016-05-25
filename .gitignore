@@ -2,3 +2,4 @@
 lib
 npm-*
 node_modules
+.tmp
