@@ -35,11 +35,16 @@
     "babel-polyfill": "6.8.0",
     "babel-preset-es2015-webpack": "6.4.1",
     "babel-preset-stage-0": "6.5.0",
+    "mocha": "2.4.5",
+    "mocha-jsdom": "1.1.0",
+    "mocha-webpack": "0.3.0",
+    "jquery-deferred": "0.3.0",
     "webpack": "2.1.0-beta.7",
     "webpack-node-externals": "1.2.0"
   },
   "scripts": {
     "build": "webpack",
-    "prepublish": "webpack"
+    "prepublish": "webpack",
+    "test": "mocha-webpack --webpack-config webpack.config.js \"**/*.test.jsx\""
   }
 }
