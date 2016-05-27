@@ -31,6 +31,10 @@ export default class Client {
         this.url = url;
     }
 
+    setAcceptLanguage(locale) {
+        this.defaultHeaders['Accept-Language'] = locale;
+    }
+
     setTeamId(id) {
         this.teamId = id;
     }
