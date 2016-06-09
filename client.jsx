@@ -1483,6 +1483,16 @@ export default class Client {
         this.track('api', 'api_apps_register');
     }
 
+    listOAuthApps(success, error) {
+        request.
+        get(`${this.getOAuthRoute()}/list`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send().
+        end(this.handleResponse.bind(this, 'getOAuthApps', success, error));
+    }
+
     allowOAuth2(responseType, clientId, redirectUri, state, scope, success, error) {
         request.
             get(`${this.getOAuthRoute()}/allow`).
@@ -1495,6 +1505,16 @@ export default class Client {
             query({scope}).
             query({state}).
             end(this.handleResponse.bind(this, 'allowOAuth2', success, error));
+    }
+
+    deleteOAuthApp(id, success, error) {
+        request.
+        post(`${this.getOAuthRoute()}/delete`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send({id}).
+        end(this.handleResponse.bind(this, 'deleteOAuthApp', success, error));
     }
 
     // Routes for Hooks

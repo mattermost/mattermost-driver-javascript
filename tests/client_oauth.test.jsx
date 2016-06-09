@@ -50,4 +50,37 @@ describe('Client.OAuth', function() {
             );
         });
     });
+
+    it('listOAuthApps', function(done) {
+        TestHelper.initBasic(() => {
+            TestHelper.basicClient().enableLogErrorsToConsole(false); // Disabling since this unit test causes an error
+
+            TestHelper.basicClient().listOAuthApps(
+                function() {
+                    done(new Error('not enabled'));
+                },
+                function(err) {
+                    assert.equal(err.id, 'api.oauth.allow_oauth.turn_off.app_error');
+                    done();
+                }
+            );
+        });
+    });
+
+    it('deleteOAuthApp', function(done) {
+        TestHelper.initBasic(() => {
+            TestHelper.basicClient().enableLogErrorsToConsole(false); // Disabling since this unit test causes an error
+
+            TestHelper.basicClient().deleteOAuthApp(
+                '616353',
+                function() {
+                    done(new Error('not enabled'));
+                },
+                function(err) {
+                    assert.equal(err.id, 'api.oauth.allow_oauth.turn_off.app_error');
+                    done();
+                }
+            );
+        });
+    });
 });
