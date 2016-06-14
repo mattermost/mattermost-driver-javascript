@@ -91,6 +91,10 @@ export default class Client {
         return `${this.url}${this.urlVersion}/teams/${this.getTeamId()}/commands`;
     }
 
+    getEmojiRoute() {
+        return `${this.url}${this.urlVersion}/emoji`;
+    }
+
     getHooksRoute() {
         return `${this.url}${this.urlVersion}/teams/${this.getTeamId()}/hooks`;
     }
@@ -1502,7 +1506,7 @@ export default class Client {
             end(this.handleResponse.bind(this, 'regenOutgoingHookToken', success, error));
     }
 
-    //Routes for Prefrecnes
+    // Routes for Preferences
 
     getAllPreferences(success, error) {
         request.
@@ -1530,5 +1534,40 @@ export default class Client {
             type('application/json').
             accept('application/json').
             end(this.handleResponse.bind(this, 'getPreferenceCategory', success, error));
+    }
+
+    // Routes for Emoji
+
+    listEmoji(success, error) {
+        request.
+            get(`${this.getEmojiRoute()}/list`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'listEmoji', success, error));
+    }
+
+    addEmoji(emoji, image, success, error) {
+        request.
+            post(`${this.getEmojiRoute()}/create`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            attach('image', image, image.name).
+            field('emoji', emoji).
+            end(this.handleResponse.bind(this, 'addEmoji', success, error));
+    }
+
+    deleteEmoji(id, success, error) {
+        request.
+            post(`${this.getEmojiRoute()}/delete`).
+            set(this.defaultHeaders).
+            accept('application/json').
+            send({id}).
+            end(this.handleResponse.bind(this, 'deleteEmoji', success, error));
+    }
+
+    getCustomEmojiImageUrl(id) {
+        return `${this.getEmojiRoute()}/${id}`;
     }
 }
