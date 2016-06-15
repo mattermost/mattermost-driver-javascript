@@ -35,6 +35,11 @@ export default class Client {
         this.defaultHeaders['Accept-Language'] = locale;
     }
 
+    setOAuthToken(token) {
+        this.token = token;
+        this.useHeaderToken();
+    }
+
     setTeamId(id) {
         this.teamId = id;
     }
