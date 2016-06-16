@@ -44,7 +44,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "postinstall": "mkdir -p ./lib && babel client.jsx -o lib/client.js",
+    "prepublish": "webpack",
     "test": "mocha-webpack --webpack-config webpack.config.js \"**/*.test.jsx\""
   }
 }
