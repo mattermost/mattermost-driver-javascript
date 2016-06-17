@@ -1551,10 +1551,9 @@ export default class Client {
         request.
             post(`${this.getEmojiRoute()}/create`).
             set(this.defaultHeaders).
-            type('application/json').
             accept('application/json').
             attach('image', image, image.name).
-            field('emoji', emoji).
+            field('emoji', JSON.stringify(emoji)).
             end(this.handleResponse.bind(this, 'addEmoji', success, error));
     }
 
