@@ -1536,6 +1536,16 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPreferenceCategory', success, error));
     }
 
+    deletePreferences(preferences, success, error) {
+        request.
+            post(`${this.getBaseRoute()}/preferences/delete`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            send(preferences).
+            end(this.handleResponse.bind(this, 'deletePreferences', success, error));
+    }
+
     // Routes for Emoji
 
     listEmoji(success, error) {
