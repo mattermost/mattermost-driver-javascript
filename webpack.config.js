@@ -2,6 +2,8 @@ var webpack = require('webpack');
 var path = require('path');
 var nodeExternals = require('webpack-node-externals');
 
+const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
+
 var config = {
     entry: './main.jsx',
     output: {
@@ -36,6 +38,10 @@ var config = {
     },
     externals: [nodeExternals()]
 };
+
+if (NPM_TARGET === 'test') {
+    config.target = 'node';
+}
 
 config.devtool = 'source-map';
 config.plugins.push(
