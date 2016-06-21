@@ -1118,6 +1118,16 @@ export default class Client {
             end(this.handleResponse.bind(this, 'updateLastViewedAt', success, error));
     }
 
+    setLastViewedAt(channelId, lastViewedAt, success, error) {
+        request.
+        post(`${this.getChannelNeededRoute(channelId)}/set_last_viewed_at`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send({last_viewed_at: lastViewedAt}).
+        end(this.handleResponse.bind(this, 'setLastViewedAt', success, error));
+    }
+
     getChannels(success, error) {
         request.
             get(`${this.getChannelsRoute()}/`).
