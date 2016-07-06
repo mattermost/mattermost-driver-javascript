@@ -613,7 +613,7 @@ export default class Client {
         this.track('api', 'api_users_create', '', 'email', user.email);
     }
 
-    updateUser(user, success, error) {
+    updateUser(user, type, success, error) {
         request.
             post(`${this.getUsersRoute()}/update`).
             set(this.defaultHeaders).
@@ -622,7 +622,11 @@ export default class Client {
             send(user).
             end(this.handleResponse.bind(this, 'updateUser', success, error));
 
-        this.track('api', 'api_users_update');
+        if (type) {
+            this.track('api', 'api_users_update_' + type);
+        } else {
+            this.track('api', 'api_users_update');
+        }
     }
 
     updatePassword(userId, currentPassword, newPassword, success, error) {
@@ -650,6 +654,8 @@ export default class Client {
             accept('application/json').
             send(notifyProps).
             end(this.handleResponse.bind(this, 'updateUserNotifyProps', success, error));
+
+        this.track('api', 'api_users_update_notification_settings');
     }
 
     updateRoles(teamId, userId, newRoles, success, error) {
@@ -992,6 +998,8 @@ export default class Client {
             attach('image', image, image.name).
             accept('application/json').
             end(this.handleResponse.bind(this, 'uploadProfileImage', success, error));
+
+        this.track('api', 'api_users_update_profile_picture');
     }
 
     // Channel Routes Section
@@ -1232,6 +1240,8 @@ export default class Client {
             accept('application/json').
             send({channelId, command, suggest: '' + suggest}).
             end(this.handleResponse.bind(this, 'executeCommand', success, error));
+
+        this.track('api', 'api_integrations_used');
     }
 
     addCommand(command, success, error) {
@@ -1242,6 +1252,8 @@ export default class Client {
             accept('application/json').
             send(command).
             end(this.handleResponse.bind(this, 'addCommand', success, error));
+
+        this.track('api', 'api_integrations_created');
     }
 
     deleteCommand(commandId, success, error) {
@@ -1252,6 +1264,8 @@ export default class Client {
             accept('application/json').
             send({id: commandId}).
             end(this.handleResponse.bind(this, 'deleteCommand', success, error));
+
+        this.track('api', 'api_integrations_deleted');
     }
 
     listTeamCommands(success, error) {
@@ -1285,6 +1299,14 @@ export default class Client {
             end(this.handleResponse.bind(this, 'createPost', success, error));
 
         this.track('api', 'api_posts_create', post.channel_id, 'length', post.message.length);
+
+        if (post.message.match(/\s#./)) {
+            this.track('api', 'api_posts_hashtag');
+        }
+
+        if (post.message.match(/\s@./)) {
+            this.track('api', 'api_posts_mentions');
+        }
     }
 
     // This is a temporary route to get around a problem with the permissions system that
@@ -1465,6 +1487,8 @@ export default class Client {
             accept('application/json').
             send(hook).
             end(this.handleResponse.bind(this, 'addIncomingHook', success, error));
+
+        this.track('api', 'api_integrations_created');
     }
 
     deleteIncomingHook(hookId, success, error) {
@@ -1475,6 +1499,8 @@ export default class Client {
             accept('application/json').
             send({id: hookId}).
             end(this.handleResponse.bind(this, 'deleteIncomingHook', success, error));
+
+        this.track('api', 'api_integrations_deleted');
     }
 
     listIncomingHooks(success, error) {
@@ -1494,6 +1520,8 @@ export default class Client {
             accept('application/json').
             send(hook).
             end(this.handleResponse.bind(this, 'addOutgoingHook', success, error));
+
+        this.track('api', 'api_integrations_created');
     }
 
     deleteOutgoingHook(hookId, success, error) {
@@ -1504,6 +1532,8 @@ export default class Client {
             accept('application/json').
             send({id: hookId}).
             end(this.handleResponse.bind(this, 'deleteOutgoingHook', success, error));
+
+        this.track('api', 'api_integrations_deleted');
     }
 
     listOutgoingHooks(success, error) {
