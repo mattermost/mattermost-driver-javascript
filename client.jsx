@@ -613,10 +613,10 @@ export default class Client {
             send(user).
             end(this.handleResponse.bind(this, 'updateUser', success, error));
 
-        if (type === '') {
-            this.track('api', 'api_users_update');
-        } else {
+        if (type) {
             this.track('api', 'api_users_update_' + type);
+        } else {
+            this.track('api', 'api_users_update');
         }
     }
 
