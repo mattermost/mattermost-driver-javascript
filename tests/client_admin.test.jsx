@@ -259,6 +259,22 @@ describe('Client.Admin', function() {
         });
     });
 
+    it('Admin.ldapSyncNow', function(done) {
+        TestHelper.initBasic(() => {
+            TestHelper.basicClient().enableLogErrorsToConsole(false); // Disabling since this unit test causes an error
+
+            TestHelper.basicClient().ldapSyncNow(
+                function() {
+                    throw Error('shouldnt work');
+                },
+                function(err) {
+                    // this should fail since you're not a system admin
+                    done();
+                }
+            );
+        });
+    });
+
     /*it('License.uploadLicenseFile', function(done) {
         TestHelper.initBasic(() => {
             TestHelper.basicClient().enableLogErrorsToConsole(false); // Disabling since this unit test causes an error

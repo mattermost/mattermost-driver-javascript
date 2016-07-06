@@ -446,6 +446,15 @@ export default class Client {
         this.track('api', 'api_admin_reset_password');
     }
 
+    ldapSyncNow(success, error) {
+        request.
+            post(`${this.getAdminRoute()}/ldap_sync_now`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'ldapSyncNow', success, error));
+    }
+
     // Team Routes Section
 
     createTeamFromSignup(teamSignup, success, error) {
