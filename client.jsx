@@ -549,9 +549,13 @@ export default class Client {
         this.track('api', 'api_teams_invite_members');
     }
 
-    addUserToTeam(userId, success, error) {
+    addUserToTeam(teamId, userId, success, error) {
+        if (teamId === "") {
+            teamId = this.getTeamId()
+        }
+
         request.
-            post(`${this.getTeamNeededRoute()}/add_user_to_team`).
+            post(`${this.getTeamsRoute()}/${teamId}/add_user_to_team`).
             set(this.defaultHeaders).
             type('application/json').
             accept('application/json').
@@ -571,6 +575,22 @@ export default class Client {
             end(this.handleResponse.bind(this, 'addUserToTeam', success, error));
 
         this.track('api', 'api_teams_invite_members');
+    }
+
+    removeUserFromTeam(teamId, userId, success, error) {
+        if (teamId === "") {
+            teamId = this.getTeamId()
+        }
+
+        request.
+            post(`${this.getTeamsRoute()}/${teamId}/remove_user_from_team`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            send({user_id: userId}).
+            end(this.handleResponse.bind(this, 'removeUserFromTeam', success, error));
+
+        this.track('api', 'api_teams_remove_members');
     }
 
     getInviteInfo(inviteId, success, error) {
