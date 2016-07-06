@@ -136,7 +136,7 @@ describe('Client.User', function() {
             user.nickname = 'updated';
 
             TestHelper.basicClient().updateUser(
-                user,
+                user, null,
                 function(data) {
                     assert.equal(data.nickname, 'updated');
                     done();
