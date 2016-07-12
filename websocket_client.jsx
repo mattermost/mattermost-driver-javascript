@@ -12,6 +12,7 @@ export default class WebSocketClient {
         this.connectFailCount = 0;
         this.manuallyClosed = false;
         this.eventCallback = null;
+        this.responseCallbacks = {};
         this.reconnectCallback = null;
         this.errorCallback = null;
         this.closeCallback = null;
@@ -31,11 +32,12 @@ export default class WebSocketClient {
         this.conn = new WebSocket(connectionUrl);
 
         this.conn.onopen = () => {
+            if (this.reconnectCallback) {
+                this.reconnectCallback();
+            }
+
             if (this.connectFailCount > 0) {
                 console.log('websocket re-established connection'); //eslint-disable-line no-console
-                if (this.reconnectCallback) {
-                    this.reconnectCallback();
-                }
             }
 
             this.connectFailCount = 0;
@@ -90,7 +92,16 @@ export default class WebSocketClient {
 
         this.conn.onmessage = (evt) => {
             const msg = JSON.parse(evt.data);
-            if (this.eventCallback) {
+            if (msg.seq_reply) {
+                if (msg.error) {
+                    console.log(msg); //eslint-disable-line no-console
+                }
+
+                if (this.responseCallbacks[msg.seq_reply]) {
+                    this.responseCallbacks[msg.seq_reply](msg);
+                    Reflect.deleteProperty(this.responseCallbacks, msg.seq_reply);
+                }
+            } else if (this.eventCallback) {
                 this.eventCallback(msg);
             }
         };
@@ -121,12 +132,16 @@ export default class WebSocketClient {
         }
     }
 
-    sendMessage(action, data) {
+    sendMessage(action, data, responseCallback) {
         const msg = {
             action,
             seq: this.sequence++,
             data
         };
+
+        if (responseCallback) {
+            this.responseCallbacks[msg.seq] = responseCallback;
+        }
 
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
             this.conn.send(JSON.stringify(msg));
@@ -142,5 +157,9 @@ export default class WebSocketClient {
         data.parent_id = parentId;
 
         this.sendMessage('user_typing', data);
+    }
+
+    getStatuses(callback) {
+        this.sendMessage('get_statuses', null, callback);
     }
 }
