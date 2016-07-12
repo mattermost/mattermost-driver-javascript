@@ -5,6 +5,7 @@
   "main": "lib/client.js",
   "files": [
       "client.jsx",
+      "websocket_client.jsx",
       "README.md",
       "Makefile",
       "lib",
