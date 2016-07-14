@@ -967,13 +967,12 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getProfilesForDirectMessageList', success, error));
     }
 
-    getStatuses(ids, success, error) {
+    getStatuses(success, error) {
         request.
-            post(`${this.getUsersRoute()}/status`).
+            get(`${this.getUsersRoute()}/status`).
             set(this.defaultHeaders).
             type('application/json').
             accept('application/json').
-            send(ids).
             end(this.handleResponse.bind(this, 'getStatuses', success, error));
     }
 
