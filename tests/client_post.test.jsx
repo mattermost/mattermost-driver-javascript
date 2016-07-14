@@ -197,5 +197,19 @@ describe('Client.Posts', function() {
             );
         });
     });
+
+    it('getFlaggedPosts', function(done) {
+        TestHelper.initBasic(() => {
+            TestHelper.basicClient().getFlaggedPosts(
+                function(data) {
+                    assert.equal(data.order[0], TestHelper.basicPost().id);
+                    done();
+                },
+                function(err) {
+                    done(new Error(err.message));
+                }
+            );
+        });
+    });
 });
 

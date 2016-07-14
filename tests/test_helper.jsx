@@ -25,6 +25,10 @@ class TestHelperClass {
         return this.basicp;
     }
 
+    basicPreference = () => {
+        return this.basicpref;
+    }
+
     generateId = () => {
         // implementation taken from http://stackoverflow.com/a/2117523
         var id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
@@ -90,6 +94,15 @@ class TestHelperClass {
         return post;
     }
 
+    fakePreference = (userId, postId) => {
+        var pref = {};
+        pref.user_id = userId;
+        pref.category = 'flagged_post';
+        pref.name = postId;
+        pref.value = 'true';
+        return pref;
+    }
+
     initBasic = (callback) => {
         this.basicc = this.createClient();
 
@@ -137,7 +150,17 @@ class TestHelperClass {
                                             post,
                                             function(rpost) {
                                                 outer.basicp = rpost;
-                                                d1.resolve();
+                                                var pref = outer.fakePreference(rpost.user_id, rpost.id);
+                                                outer.basicClient.savePreferences(
+                                                    [pref],
+                                                    function(rpref) {
+                                                        outer.basicpref = rpref;
+                                                        d1.resolve();
+                                                    },
+                                                    function(err) {
+                                                        throw err;
+                                                    }
+                                                );
                                             },
                                             function(err) {
                                                 throw err;
