@@ -10,7 +10,6 @@ export default class WebSocketClient {
         this.conn = null;
         this.sequence = 1;
         this.connectFailCount = 0;
-        this.manuallyClosed = false;
         this.eventCallback = null;
         this.responseCallbacks = {};
         this.reconnectCallback = null;
@@ -26,8 +25,6 @@ export default class WebSocketClient {
         if (this.connectFailCount === 0) {
             console.log('websocket connecting to ' + connectionUrl); //eslint-disable-line no-console
         }
-
-        this.manuallyClosed = false;
 
         this.conn = new WebSocket(connectionUrl);
 
@@ -51,10 +48,6 @@ export default class WebSocketClient {
                 console.log('websocket closed'); //eslint-disable-line no-console
             }
 
-            if (this.manuallyClosed) {
-                return;
-            }
-
             this.connectFailCount++;
 
             if (this.closeCallback) {
@@ -65,7 +58,7 @@ export default class WebSocketClient {
 
             // If we've failed a bunch of connections then start backing off
             if (this.connectFailCount > MAX_WEBSOCKET_FAILS) {
-                retryTime = MIN_WEBSOCKET_RETRY_TIME * connectFailCount * connectFailCount;
+                retryTime = MIN_WEBSOCKET_RETRY_TIME * this.connectFailCount * this.connectFailCount;
                 if (retryTime > MAX_WEBSOCKET_RETRY_TIME) {
                     retryTime = MAX_WEBSOCKET_RETRY_TIME;
                 }
@@ -124,11 +117,13 @@ export default class WebSocketClient {
     }
 
     close() {
-        this.manuallyClosed = true;
         this.connectFailCount = 0;
         this.sequence = 1;
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
+            this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
             this.conn.close();
+            this.conn = null;
+            console.log('websocket closed'); //eslint-disable-line no-console
         }
     }
 

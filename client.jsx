@@ -40,7 +40,7 @@ export default class Client {
     }
 
     getTeamId() {
-        if (this.teamId === '') {
+        if (!this.teamId) {
             console.error('You are trying to use a route that requires a team_id, but you have not called setTeamId() in client.jsx'); // eslint-disable-line no-console
         }
 
@@ -550,12 +550,13 @@ export default class Client {
     }
 
     addUserToTeam(teamId, userId, success, error) {
-        if (teamId === "") {
-            teamId = this.getTeamId()
+        let nonEmptyTeamId = teamId;
+        if (nonEmptyTeamId === '') {
+            nonEmptyTeamId = this.getTeamId();
         }
 
         request.
-            post(`${this.getTeamsRoute()}/${teamId}/add_user_to_team`).
+            post(`${this.getTeamsRoute()}/${nonEmptyTeamId}/add_user_to_team`).
             set(this.defaultHeaders).
             type('application/json').
             accept('application/json').
@@ -578,12 +579,13 @@ export default class Client {
     }
 
     removeUserFromTeam(teamId, userId, success, error) {
-        if (teamId === "") {
-            teamId = this.getTeamId()
+        let nonEmptyTeamId = teamId;
+        if (nonEmptyTeamId === '') {
+            nonEmptyTeamId = this.getTeamId();
         }
 
         request.
-            post(`${this.getTeamsRoute()}/${teamId}/remove_user_from_team`).
+            post(`${this.getTeamsRoute()}/${nonEmptyTeamId}/remove_user_from_team`).
             set(this.defaultHeaders).
             type('application/json').
             accept('application/json').
@@ -1664,5 +1666,18 @@ export default class Client {
         accept('application/json').
         send({filename}).
         end(this.handleResponse.bind(this, 'removeCertificateFile', success, error));
+    }
+
+    samlCertificateStatus(success, error) {
+        request.get(`${this.getAdminRoute()}/saml_cert_status`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        end((err, res) => {
+            if (err) {
+                return error(err);
+            }
+            return success(res.body);
+        });
     }
 }
