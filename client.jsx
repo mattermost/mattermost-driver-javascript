@@ -4,6 +4,7 @@
 import request from 'superagent';
 
 const HEADER_X_VERSION_ID = 'x-version-id';
+const HEADER_X_CLUSTER_ID = 'x-cluster-id';
 const HEADER_TOKEN = 'token';
 const HEADER_BEARER = 'BEARER';
 const HEADER_AUTH = 'Authorization';
@@ -12,6 +13,7 @@ export default class Client {
     constructor() {
         this.teamId = '';
         this.serverVersion = '';
+        this.clusterId = '';
         this.logToConsole = false;
         this.useToken = false;
         this.token = '';
@@ -151,6 +153,11 @@ export default class Client {
             this.serverVersion = res.header[HEADER_X_VERSION_ID];
             if (res.header[HEADER_X_VERSION_ID]) {
                 this.serverVersion = res.header[HEADER_X_VERSION_ID];
+            }
+
+            this.clusterId = res.header[HEADER_X_CLUSTER_ID];
+            if (res.header[HEADER_X_CLUSTER_ID]) {
+                this.clusterId = res.header[HEADER_X_CLUSTER_ID];
             }
         }
 
@@ -293,6 +300,15 @@ export default class Client {
             type('application/json').
             accept('application/json').
             end(this.handleResponse.bind(this, 'getLogs', success, error));
+    }
+
+    getClusterStatus(success, error) {
+        return request.
+            get(`${this.getAdminRoute()}/cluster_status`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'getClusterStatus', success, error));
     }
 
     getServerAudits(success, error) {
@@ -1434,6 +1450,15 @@ export default class Client {
             end(this.handleResponse.bind(this, 'getPostsAfter', success, error));
     }
 
+    getFlaggedPosts(offset, limit, success, error) {
+        request.
+            get(`${this.getTeamNeededRoute()}/posts/flagged/${offset}/${limit}`).
+            set(this.defaultHeaders).
+            type('application/json').
+            accept('application/json').
+            end(this.handleResponse.bind(this, 'getFlaggedPosts', success, error));
+    }
+
     // Routes for Files
 
     getFileInfo(filename, success, error) {
@@ -1496,6 +1521,66 @@ export default class Client {
             query({scope}).
             query({state}).
             end(this.handleResponse.bind(this, 'allowOAuth2', success, error));
+    }
+
+    listOAuthApps(success, error) {
+        request.
+        get(`${this.getOAuthRoute()}/list`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send().
+        end(this.handleResponse.bind(this, 'getOAuthApps', success, error));
+    }
+
+    deleteOAuthApp(id, success, error) {
+        request.
+        post(`${this.getOAuthRoute()}/delete`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send({id}).
+        end(this.handleResponse.bind(this, 'deleteOAuthApp', success, error));
+    }
+
+    getOAuthAppInfo(id, success, error) {
+        request.
+        get(`${this.getOAuthRoute()}/app/${id}`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send().
+        end(this.handleResponse.bind(this, 'getOAuthAppInfo', success, error));
+    }
+
+    getAuthorizedApps(success, error) {
+        request.
+        get(`${this.getOAuthRoute()}/authorized`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send().
+        end(this.handleResponse.bind(this, 'getAuthorizedApps', success, error));
+    }
+
+    deauthorizeOAuthApp(id, success, error) {
+        request.
+        post(`${this.getOAuthRoute()}/${id}/deauthorize`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send().
+        end(this.handleResponse.bind(this, 'deauthorizeOAuthApp', success, error));
+    }
+
+    regenerateOAuthAppSecret(id, success, error) {
+        request.
+        post(`${this.getOAuthRoute()}/${id}/regen_secret`).
+        set(this.defaultHeaders).
+        type('application/json').
+        accept('application/json').
+        send().
+        end(this.handleResponse.bind(this, 'regenerateOAuthAppSecret', success, error));
     }
 
     // Routes for Hooks
