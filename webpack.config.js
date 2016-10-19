@@ -19,7 +19,7 @@ var config = {
                 loader: 'babel',
                 exclude: /(node_modules|non_npm_dependencies)/,
                 query: {
-                    presets: ['es2015-webpack', 'stage-0'],
+                    presets: ['es2015', 'stage-0'],
                     plugins: ['transform-runtime'],
                 }
             }
