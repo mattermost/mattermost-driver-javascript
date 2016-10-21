@@ -44,7 +44,7 @@ API Documentation is coming soon. For now, take a look at the [client.jsx](https
 
 `make build` - Compiles client.jsx into a minified lib/client.js
 
-`make pubish` - Walks though the steps to publish the package (manually)
+`make publish` - Walks though the steps to publish the package (manually)
 
 `make clean` - Cleans up compiled bits and npm dependencies. 
 
