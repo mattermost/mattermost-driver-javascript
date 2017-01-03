@@ -162,12 +162,10 @@ export default class Client {
 
     handleResponse(methodName, successCallback, errorCallback, err, res) {
         if (res && res.header) {
-            this.serverVersion = res.header[HEADER_X_VERSION_ID];
             if (res.header[HEADER_X_VERSION_ID]) {
                 this.serverVersion = res.header[HEADER_X_VERSION_ID];
             }
 
-            this.clusterId = res.header[HEADER_X_CLUSTER_ID];
             if (res.header[HEADER_X_CLUSTER_ID]) {
                 this.clusterId = res.header[HEADER_X_CLUSTER_ID];
             }
@@ -508,16 +506,6 @@ export default class Client {
     }
 
     // Team Routes Section
-
-    createTeamFromSignup(teamSignup, success, error) {
-        request.
-            post(`${this.getTeamsRoute()}/create_from_signup`).
-            set(this.defaultHeaders).
-            type('application/json').
-            accept('application/json').
-            send(teamSignup).
-            end(this.handleResponse.bind(this, 'createTeamFromSignup', success, error));
-    }
 
     findTeamByName(teamName, success, error) {
         request.
