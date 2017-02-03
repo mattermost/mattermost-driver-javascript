@@ -144,14 +144,6 @@ export default class Client {
         }
     }
 
-    track(category, action, label, property, value) { // eslint-disable-line no-unused-vars
-        // NO-OP for inherited classes to override
-    }
-
-    trackPage() {
-        // NO-OP for inherited classes to override
-    }
-
     handleError(err, res) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
