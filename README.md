@@ -1,7 +1,10 @@
+# Deprecation
+
+API version 3 is scheduled for deprecation on January 16th, 2018 and as part of the deprecation process this driver is no longer being updated or maintained. We encourage use of the new API version 4 driver available in our [mattermost-redux](https://github.com/mattermost/mattermost-redux) library moving forward.
+
 # Mattermost JavaScript API Library
 
 [![npm](https://img.shields.io/npm/v/mattermost.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/mattermost) [![npm](https://img.shields.io/npm/l/mattermost.svg?maxAge=2592000?style=plastic)](https://github.com/mattermost/mattermost-driver-javascript/blob/master/LICENSE.txt)
-
 
 A library for interacting with the [Mattermost](https://github.com/mattermost/platform) API.
 
