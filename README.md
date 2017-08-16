@@ -1,6 +1,6 @@
 # Deprecation
 
-API version 3 is scheduled for deprecation on January 16th, 2018 and as part of the deprecation process this driver is no longer being updated or maintained. We encourage use of the new API version 4 driver available in our [mattermost-redux](https://github.com/mattermost/mattermost-redux) library moving forward.
+API version 3 is [scheduled for deprecation on January 16th, 2018](https://api.mattermost.com/#tag/APIv3-Deprecation) and as part of the deprecation process this driver is no longer maintained. We recommend using the new API version 4 driver available in our [mattermost-redux](https://github.com/mattermost/mattermost-redux) repository.
 
 # Mattermost JavaScript API Library
 
